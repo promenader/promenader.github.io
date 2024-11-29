@@ -6,10 +6,10 @@
 
 2、获取转发的dns地址
 
-![image-20241129214010683](/Users/chen/code/promenader.github.io/image/image-20241129214010683.png)
+![image-20241129214010683](../image/image-20241129214010683.png)
 
 
 
 3、修改hosts文件  /etc/hosts
 
-![image-20241129214123997](/Users/chen/code/promenader.github.io/image/image-20241129214123997.png)
+![image-20241129214123997](../image/image-20241129214123997.png)
