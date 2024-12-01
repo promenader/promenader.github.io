@@ -141,7 +141,230 @@ public class ListCreation {
 
 
 
+List的基本操作
 
+```java
+import java.util.*;
+public class ListOperations {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+
+        // 1. 添加元素
+        list.add("A");                  // 添加到末尾
+        list.add(0, "B");              // 在指定位置添加
+        list.addAll(Arrays.asList("C", "D")); // 添加集合
+
+        // 2. 访问元素
+        String first = list.get(0);     // 获取元素
+        list.set(1, "E");              // 修改元素
+
+        // 3. 删除元素
+        list.remove(0);                // 按索引删除
+        list.remove("A");              // 按对象删除
+        list.removeAll(Arrays.asList("B", "C")); // 删除多个元素
+
+        // 4. 查找元素
+        boolean contains = list.contains("D");
+        int index = list.indexOf("D");
+        int lastIndex = list.lastIndexOf("D");
+
+        list.add("B");
+        list.add("C");
+        // 5. 获取子列表
+        List<String> subList = list.subList(1, 3); // [fromIndex, toIndex)
+
+        // 6. 清空列表
+        list.clear();
+
+        // 7. 判空和大小
+        boolean isEmpty = list.isEmpty();
+        int size = list.size();
+    }
+}
+```
+
+
+
+List的遍历
+
+```java
+import java.util.*;
+
+public class ListIteration {
+    public static void main(String[] args) {
+        List<String> list = Arrays.asList("A", "B", "C", "D");
+
+        // 1. for循环
+        for (int i = 0; i < list.size(); i++) {
+            System.out.print(list.get(i) + " ");
+        }
+
+        // 2. 增强for循环
+        for (String item : list) {
+            System.out.print(item + " ");
+        }
+
+        // 3. Iterator
+        Iterator<String> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            System.out.print(iterator.next() + " ");
+        }
+
+        // 4. ListIterator（可以双向遍历）
+        ListIterator<String> listIterator = list.listIterator();
+        while (listIterator.hasNext()) {
+            System.out.print(listIterator.next() + " ");
+        }
+
+        // 5. Stream API (Java 8+)
+        list.stream().forEach(System.out::print);
+
+        // 6. forEach方法 (Java 8+)
+        list.forEach(System.out::print);
+    }
+}
+```
+
+List的排序
+
+```java
+import java.util.*;
+
+public class ListSortSearch {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>(Arrays.asList("D", "B", "A", "C"));
+
+        // 1. 排序
+        Collections.sort(list);  // 自然顺序排序
+
+        // 使用Comparator排序
+        Collections.sort(list, (a, b) -> b.compareTo(a));  // 降序
+        list.sort((a, b) -> a.compareTo(b));  // 另一种方式
+        list.sort(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.compareTo(o2);
+            }
+        });//升序
+        list.sort(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o2.compareTo(o1);
+            }
+        });//降序
+        // 2. 二分查找（要求列表已排序）
+        Collections.sort(list);
+        int index = Collections.binarySearch(list, "B");
+
+        // 3. 查找最大最小值
+        String max = Collections.max(list);
+        String min = Collections.min(list);
+
+        // 4. 频率统计
+        int frequency = Collections.frequency(list, "A");
+    }
+}
+```
+
+List的转换
+
+```java
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class ListConversion {
+    public static void main(String[] args) {
+        // 1. List转数组
+        List<String> list = Arrays.asList("A", "B", "C");
+
+        // 转Object数组
+        Object[] objArray = list.toArray();
+
+        // 转指定类型数组
+        String[] strArray = list.toArray(new String[0]);
+
+        // 2. 数组转List
+        String[] array = {"A", "B", "C"};
+        List<String> list1 = Arrays.asList(array);        // 固定大小
+        List<String> list2 = new ArrayList<>(Arrays.asList(array)); // 可变大小
+
+        // 3. List转Set
+        Set<String> set = new HashSet<>(list);
+
+        // 4. Stream转换
+        List<String> upperList = list.stream()
+                .map(String::toUpperCase)
+                .collect(Collectors.toList());
+    }
+}
+```
+
+List自定义对象的使用
+
+```java
+import java.util.*;
+class Person {
+    public String name;
+    public int age;
+
+    public Person(String name, int age) {
+        this.name=name;
+        this.age=age;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return age == person.age && Objects.equals(name, person.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
+    }
+}
+
+public class CustomObjectList {
+    public static void main(String[] args) {
+        List<Person> people = new ArrayList<>();
+
+        // 添加对象
+        people.add(new Person("Alice", 25));
+        people.add(new Person("Bob", 30));
+
+        // 排序
+        Collections.sort(people, new Comparator<Person>() {
+            @Override
+            public int compare(Person o1, Person o2) {
+                return o1.age-o2.age;
+            }
+        });//根据age进行升序排列
+        Collections.sort(people, new Comparator<Person>() {
+                    @Override
+                    public int compare(Person o1, Person o2) {
+                        return o1.name.compareTo(o2.name);
+                    }
+        });//根据name升序排列
+
+                // 查找
+                Person searchPerson = new Person("Alice", 25);
+        boolean contains = people.contains(searchPerson); // 需要正确实现equals方法
+    }
+}
+```
+
+
+
+### 3、Set集合
+
+集合是一组不重复数据的集合
+
+set集合的创建
+
+```java
+```
 
 
 
