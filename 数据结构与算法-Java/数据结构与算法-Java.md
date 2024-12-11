@@ -364,7 +364,209 @@ public class CustomObjectList {
 set集合的创建
 
 ```java
+import java.util.*;
+
+public class SetCreation {
+    public static void main(String[] args) {
+        // 1. HashSet - 无序
+        Set<String> hashSet = new HashSet<>();
+        Set<String> hashSet2 = new HashSet<>(Arrays.asList("A", "B", "C"));
+
+        // 2. LinkedHashSet - 保持插入顺序
+        Set<String> linkedHashSet = new LinkedHashSet<>();
+
+        // 3. TreeSet - 有序（自然顺序或指定比较器）
+        Set<String> treeSet = new TreeSet<>();
+        Set<String> treeSet2 = new TreeSet<>((a, b) -> b.compareTo(a)); // 降序
+
+        // 4. 不可变Set (Java 9+)
+        Set<String> immutableSet = Set.of("A", "B", "C");
+
+        // 5. 同步Set
+        Set<String> syncSet = Collections.synchronizedSet(new HashSet<>());
+    }
+}
 ```
 
 
+
+Set的基本操作
+
+```java
+import java.util.*;
+
+public class SetOperations {
+    public static void main(String[] args) {
+        Set<String> set = new HashSet<>();
+
+        // 1. 添加元素
+        set.add("A");
+        set.addAll(Arrays.asList("B", "C", "D"));
+
+        // 2. 删除元素
+        set.remove("A");
+        set.removeAll(Arrays.asList("B", "C"));
+
+        // 3. 查询操作
+        boolean contains = set.contains("D");
+        boolean isEmpty = set.isEmpty();
+        int size = set.size();
+
+        // 4. 清空Set
+        set.clear();
+
+        // 5. 集合操作
+        Set<String> set1 = new HashSet<>(Arrays.asList("A", "B", "C"));
+        Set<String> set2 = new HashSet<>(Arrays.asList("B", "C", "D"));
+
+        // 并集
+        Set<String> union = new HashSet<>(set1);
+        union.addAll(set2);
+
+        // 交集
+        Set<String> intersection = new HashSet<>(set1);
+        intersection.retainAll(set2);
+
+        // 差集
+        Set<String> difference = new HashSet<>(set1);
+        difference.removeAll(set2);
+    }
+}
+```
+
+Set的遍历操作
+
+```java
+import java.util.*;
+
+public class SetIteration {
+    public static void main(String[] args) {
+        Set<String> set = new HashSet<>(Arrays.asList("A", "B", "C"));
+
+        // 1. 增强for循环
+        for (String element : set) {
+            System.out.print(element + " ");
+        }
+
+        // 2. Iterator
+        Iterator<String> iterator = set.iterator();
+        while (iterator.hasNext()) {
+            System.out.print(iterator.next() + " ");
+        }
+
+        // 3. forEach方法 (Java 8+)
+        set.forEach(System.out::print);
+
+        // 4. Stream API (Java 8+)
+        set.stream()
+                .forEach(System.out::print);
+    }
+}
+```
+
+
+
+Set的不同实现方式
+
+```java
+import java.util.*;
+public class SetImplementations {
+    public static void main(String[] args) {
+        // 1. HashSet - 最快的实现，无序
+        Set<String> hashSet = new HashSet<>();
+        hashSet.add("B");
+        hashSet.add("A");
+        hashSet.add("C");
+        System.out.println("HashSet: " + hashSet); // 输出顺序不确定
+
+        // 2. LinkedHashSet - 保持插入顺序
+        Set<String> linkedHashSet = new LinkedHashSet<>();
+        linkedHashSet.add("B");
+        linkedHashSet.add("A");
+        linkedHashSet.add("C");
+        System.out.println("LinkedHashSet: " + linkedHashSet); // 按插入顺序输出
+
+        // 3. TreeSet - 有序（自然顺序或自定义顺序）
+        Set<String> treeSet = new TreeSet<>();
+        treeSet.add("B");
+        treeSet.add("A");
+        treeSet.add("C");
+        System.out.println("TreeSet: " + treeSet); // 按字母顺序输出
+
+        // 自定义排序的TreeSet
+        Set<String> customTreeSet = new TreeSet<>((a, b) -> b.compareTo(a));
+        customTreeSet.addAll(Arrays.asList("B", "A", "C"));
+        System.out.println("Custom TreeSet: " + customTreeSet); // 按字母降序输出
+    }
+}
+```
+
+Set的转换
+
+```java
+import java.util.*;
+import java.util.stream.Stream;
+
+public class SetConversion {
+    public static void main(String[] args) {
+        Set<String> set = new HashSet<>(Arrays.asList("A", "B", "C"));
+
+        // 1. Set转数组
+        String[] array = set.toArray(new String[0]);
+
+        // 2. Set转List
+        List<String> list = new ArrayList<>(set);
+
+        // 3. Set转Stream
+        Stream<String> stream = set.stream();
+
+        // 4. 不同Set实现之间的转换
+        Set<String> hashSet = new HashSet<>(set);
+        Set<String> linkedHashSet = new LinkedHashSet<>(set);
+        Set<String> treeSet = new TreeSet<>(set);
+    }
+}
+```
+
+
+
+### 4、Map类型
+
+Map的创建
+
+```java
+import java.util.*;
+
+public class MapCreation {
+    public static void main(String[] args) {
+        // 1. HashMap - 无序
+        Map<String, Integer> hashMap = new HashMap<>();
+        // 初始容量和负载因子,负载因子越小冲突越少，内存使用越多
+        Map<String, Integer> hashMap2 = new HashMap<>(16, 0.75f);
+
+        // 2. TreeMap - 按键排序
+        Map<String, Integer> treeMap = new TreeMap<>();
+        Map<String, Integer> treeMap2 = new TreeMap<>((a, b) -> b.compareTo(a)); // 自定义排序
+
+        // 3. LinkedHashMap - 保持插入顺序
+        Map<String, Integer> linkedHashMap = new LinkedHashMap<>();
+
+        // 4. 不可变Map (Java 9+)
+        Map<String, Integer> immutableMap = Map.of(
+                "A", 1,
+                "B", 2,
+                "C", 3
+        );
+
+        // 5. 同步Map
+        Map<String, Integer> syncMap = Collections.synchronizedMap(new HashMap<>());
+
+        // 6. 使用Map.entry创建
+        Map<String, Integer> map = Map.ofEntries(
+                Map.entry("A", 1),
+                Map.entry("B", 2)
+        );
+    }
+}
+```
 
