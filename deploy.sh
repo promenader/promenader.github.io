@@ -1,5 +1,5 @@
-# !/bin/bash
+#!/bin/bash
+
 git add .
 git commit -m "update"
-git push
-echo "push success"
+git push origin master
